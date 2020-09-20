@@ -1,4 +1,4 @@
-package com.example.GWSistemas.Desafio.controller;
+package com.example.GWSistemas.Desafio.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
