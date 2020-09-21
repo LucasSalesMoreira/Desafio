@@ -10,6 +10,6 @@ public class DesafioControllerIndex {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<String> postCreate() {
-        return ResponseEntity.ok("OK!");
+        return ResponseEntity.ok("<h1>HOME PAGE</h1>");
     }
 }
