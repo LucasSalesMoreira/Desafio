@@ -59,7 +59,7 @@ public class DesafioRepositoryCreateUser {
             stmt.setString(1, id);
             stmt.setString(2, DesafioServiceDate.getDate());
             stmt.setString(3, DesafioServiceDate.getDate());
-            stmt.setString(4, "Nunca");
+            stmt.setString(4, DesafioServiceDate.getDate());
             stmt.setString(5, "TokenDeConexão");
             stmt.executeUpdate();
             desafioConnection.finish(conn, stmt);
