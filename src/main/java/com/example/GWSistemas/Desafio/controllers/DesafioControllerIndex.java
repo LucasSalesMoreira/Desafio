@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DesafioControllerIndex {
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<String> postCreate() {
         return ResponseEntity.ok("<h1>HOME PAGE</h1>");
     }
