@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21-Set-2020 às 01:36
+-- Tempo de geração: 22-Set-2020 às 16:40
 -- Versão do servidor: 10.4.14-MariaDB
 -- versão do PHP: 7.4.10
 
@@ -22,6 +22,20 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `desafiobd` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `desafiobd`;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `log`
+--
+
+CREATE TABLE `log` (
+  `id_user` varchar(50) DEFAULT NULL,
+  `data_criacao` varchar(10) DEFAULT NULL,
+  `data_atualizacao` varchar(10) DEFAULT NULL,
+  `data_login` varchar(10) DEFAULT NULL,
+  `token` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -53,6 +67,12 @@ CREATE TABLE `user` (
 --
 
 --
+-- Índices para tabela `log`
+--
+ALTER TABLE `log`
+  ADD KEY `id_user` (`id_user`);
+
+--
 -- Índices para tabela `telephone`
 --
 ALTER TABLE `telephone`
@@ -67,6 +87,12 @@ ALTER TABLE `user`
 --
 -- Restrições para despejos de tabelas
 --
+
+--
+-- Limitadores para a tabela `log`
+--
+ALTER TABLE `log`
+  ADD CONSTRAINT `log_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
 
 --
 -- Limitadores para a tabela `telephone`
