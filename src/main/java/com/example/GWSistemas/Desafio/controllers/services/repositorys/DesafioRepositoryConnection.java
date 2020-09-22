@@ -1,11 +1,14 @@
 package com.example.GWSistemas.Desafio.controllers.services.repositorys;
 
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Repository
 public class DesafioRepositoryConnection {
     private static final String HOST = "jdbc:mysql://localhost:3306/desafiobd";
     private static final String USER = "root";

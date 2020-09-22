@@ -13,6 +13,8 @@ public class DesafioRepositoryUserVerifycation {
 
     private DesafioModelUser user;
 
+    public DesafioRepositoryUserVerifycation() { }
+
     public DesafioRepositoryUserVerifycation(DesafioModelUser user) {
         this.user = user;
     }

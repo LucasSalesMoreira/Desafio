@@ -12,6 +12,8 @@ public class DesafioServiceCreateUser {
 
     private DesafioModelUser user;
 
+    public DesafioServiceCreateUser() { }
+
     public DesafioServiceCreateUser(String user) {
         loadJSON(user);
     }

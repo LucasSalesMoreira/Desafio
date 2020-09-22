@@ -14,6 +14,8 @@ public class DesafioRepositoryCreateUser {
 
     private DesafioModelUser user;
 
+    public DesafioRepositoryCreateUser() { }
+
     public DesafioRepositoryCreateUser(DesafioModelUser user) {
         this.user = user;
     }
@@ -26,13 +28,13 @@ public class DesafioRepositoryCreateUser {
 
             DesafioRepositoryConnection desafioConnection  = new DesafioRepositoryConnection();
 
-            Connection conn = null;
+            Connection conn;
+            PreparedStatement stmt;
+
             conn = desafioConnection.connect();
-            PreparedStatement stmt = null;
-
             stmt = conn.prepareStatement(sqlUser);
-            DesafioServiceSecurity security = new DesafioServiceSecurity();
 
+            DesafioServiceSecurity security = new DesafioServiceSecurity();
             String id = security.generateID();
 
             stmt.setString(1, id);
@@ -52,13 +54,18 @@ public class DesafioRepositoryCreateUser {
                 desafioConnection.finish(conn, stmt);
             }
 
-            PreparedStatement stmtLog = conn.prepareStatement(sqlLog);
-            stmtLog.setString(2, DesafioServiceDate.getDate());
-            stmtLog.setString(3, DesafioServiceDate.getDate());
-            stmtLog.setString(4, "Nunca");
-            stmtLog.setString(5, "token");
+            conn = desafioConnection.connect();
+            stmt = conn.prepareStatement(sqlLog);
+            stmt.setString(1, id);
+            stmt.setString(2, DesafioServiceDate.getDate());
+            stmt.setString(3, DesafioServiceDate.getDate());
+            stmt.setString(4, "Nunca");
+            stmt.setString(5, "TokenDeConexão");
+            stmt.executeUpdate();
+            desafioConnection.finish(conn, stmt);
 
             return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
