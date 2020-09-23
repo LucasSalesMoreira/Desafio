@@ -15,8 +15,8 @@ public class DesafioControllerCreateUser {
 
         String status = new DesafioServiceCreateUser(jsonString).create();
 
-        if (status.equals("OK"))
-            return ResponseEntity.ok("Cadastro realizado!");
+        if (!status.equals("EXIST") && !status.equals("ERROR"))
+            return ResponseEntity.ok(status);
         else if (status.equals("EXIST"))
             return ResponseEntity.ok("E-mail já existente!");
         else if (status.equals("ERROR"))
