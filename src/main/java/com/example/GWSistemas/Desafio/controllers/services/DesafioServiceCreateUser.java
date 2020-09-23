@@ -26,7 +26,7 @@ public class DesafioServiceCreateUser {
     public String create() {
         if (!new DesafioRepositoryUserVerifycation(user).verifyUser()) {
             if (new DesafioRepositoryCreateUser(user).create())
-                return "OK";
+                return new DesafioServiceResponseLog().generateResponse(user).toString();
             else
                 return "ERROR";
         } else {
