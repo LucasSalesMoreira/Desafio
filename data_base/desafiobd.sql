@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22-Set-2020 às 16:40
+-- Tempo de geração: 24-Set-2020 às 22:03
 -- Versão do servidor: 10.4.14-MariaDB
 -- versão do PHP: 7.4.10
 
@@ -34,8 +34,15 @@ CREATE TABLE `log` (
   `data_criacao` varchar(10) DEFAULT NULL,
   `data_atualizacao` varchar(10) DEFAULT NULL,
   `data_login` varchar(10) DEFAULT NULL,
-  `token` varchar(100) DEFAULT NULL
+  `token` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `log`
+--
+
+INSERT INTO `log` (`id_user`, `data_criacao`, `data_atualizacao`, `data_login`, `token`) VALUES
+('5a79c303-fbc0-4bca-95d1-19c9c7d524e8', '24-09-2020', '24-09-2020', '24-09-2020', 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODIiLCJpYXQiOjE2MDA5Nzc2MjksInN1YiI6Imx1Y2FzZGV2c29mdHdhcmVAZ21haWwuY29tIiwiZXhwIjoxNjAwOTc3NzQ5fQ.6TU5-zdvqg1sHfb4UZC5f92f0XX7JqYzQZJ42qF4f3o');
 
 -- --------------------------------------------------------
 
@@ -49,6 +56,16 @@ CREATE TABLE `telephone` (
   `numero` varchar(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Extraindo dados da tabela `telephone`
+--
+
+INSERT INTO `telephone` (`id_user`, `ddd`, `numero`) VALUES
+('5a79c303-fbc0-4bca-95d1-19c9c7d524e8', '11', '123456789'),
+('5a79c303-fbc0-4bca-95d1-19c9c7d524e8', '11', '123456789'),
+('5a79c303-fbc0-4bca-95d1-19c9c7d524e8', '11', '123456789'),
+('5a79c303-fbc0-4bca-95d1-19c9c7d524e8', '11', '123456789');
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +78,13 @@ CREATE TABLE `user` (
   `email` varchar(30) DEFAULT NULL,
   `senha` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `user`
+--
+
+INSERT INTO `user` (`id`, `nome`, `email`, `senha`) VALUES
+('5a79c303-fbc0-4bca-95d1-19c9c7d524e8', 'Lucas Sales', 'lucasdevsoftware@gmail.com', '21232F297A57A5A743894A0E4A801FC3');
 
 --
 -- Índices para tabelas despejadas
