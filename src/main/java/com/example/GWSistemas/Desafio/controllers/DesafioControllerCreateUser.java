@@ -2,16 +2,16 @@ package com.example.GWSistemas.Desafio.controllers;
 
 import com.example.GWSistemas.Desafio.controllers.services.DesafioServiceCreateUser;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DesafioControllerCreateUser {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<String> postCreate(@RequestParam("myJsonEncoded") String jsonString) {
+    public ResponseEntity<String> postCreate(@RequestBody String jsonString) {
 
         String status = new DesafioServiceCreateUser(jsonString).create();
 

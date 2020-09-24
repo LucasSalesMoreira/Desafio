@@ -2,6 +2,7 @@ package com.example.GWSistemas.Desafio.controllers.services.repositorys;
 
 import com.example.GWSistemas.Desafio.controllers.services.DesafioServiceDate;
 import com.example.GWSistemas.Desafio.controllers.services.DesafioServiceSecurity;
+import com.example.GWSistemas.Desafio.controllers.services.DesafioServiceToken;
 import com.example.GWSistemas.Desafio.models.DesafioModelUser;
 import org.springframework.stereotype.Repository;
 
@@ -60,7 +61,7 @@ public class DesafioRepositoryCreateUser {
             stmt.setString(2, DesafioServiceDate.getDate());
             stmt.setString(3, DesafioServiceDate.getDate());
             stmt.setString(4, DesafioServiceDate.getDate());
-            stmt.setString(5, "TokenDeConexão");
+            stmt.setString(5, new DesafioServiceToken().generateToken(user.getEmail()));
             stmt.executeUpdate();
             desafioConnection.finish(conn, stmt);
 
