@@ -1,5 +1,8 @@
 package com.example.GWSistemas.Desafio.controllers.services;
 
+import com.example.GWSistemas.Desafio.controllers.services.repositorys.DesafioRepositoryTokenStatus;
+import com.example.GWSistemas.Desafio.controllers.services.repositorys.DesafioRepositoryTokenUpdate;
+import com.google.gson.JsonObject;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -18,24 +21,57 @@ public class DesafioServiceToken {
 
     private static final int EXPIRATION_TIME = 120000; // 2 minutos.
 
-    public boolean verify(String token) {
+    public JsonObject verifyToken(String token, String id, String email) {
+
+        JsonObject status = new JsonObject();
 
         try {
             String tokenTreated = token.replace("Bearer ", "");
-            Claims claims = Jwts.parser().setSigningKey(KEY).parseClaimsJws(token).getBody();
-            System.out.println(claims.getIssuer());
-            System.out.println(claims.getIssuedAt());
-            System.out.println(claims.getSubject());
-            System.out.println(claims.getExpiration());
-            return true;
+            //Tentando decriptar e validar
+            Claims claims = Jwts.parser().setSigningKey(KEY).parseClaimsJws(tokenTreated).getBody();
+
+            System.out.println("URL: " + claims.getIssuer());
+            System.out.println("Data de criação: " + claims.getIssuedAt());
+            System.out.println("Proprietário: " + claims.getSubject());
+            System.out.println("Data de expiração: " + claims.getExpiration());
+
+            if (claims.getSubject().equals(email)) {
+                status.addProperty("status_token", DesafioRepositoryTokenStatus._VALID_TOKEN);
+                status.addProperty("url", claims.getIssuer());
+                status.addProperty("data_criacao", DesafioServiceDate.format(claims.getIssuedAt()));
+                status.addProperty("proprietario", claims.getSubject());
+                status.addProperty("data_expiracao", DesafioServiceDate.format(claims.getExpiration()));
+                status.addProperty("token", tokenTreated);
+            } else {
+                status.addProperty("status_token", DesafioRepositoryTokenStatus._INCORRECT_TOKEN);
+            }
+
+            return status;
 
         } catch (ExpiredJwtException e) {
             System.out.println("Token expirado!");
+            String newToken = generateToken(email);
+            if (new DesafioRepositoryTokenUpdate().update(id, newToken)) {
+                status.addProperty("status_token", DesafioRepositoryTokenStatus._UPDATED_BY_EXPIRATION);
+                status.addProperty("id_user", id);
+                status.addProperty("novo_token", newToken);
+                return status;
+            }
+
         } catch (SignatureException e) {
             System.out.println("Token inválido!");
+            String newToken = generateToken(email);
+            if (new DesafioRepositoryTokenUpdate().update(id, newToken)) {
+                status.addProperty("status_token", DesafioRepositoryTokenStatus._UPDATED_BY_INVALIDATION);
+                status.addProperty("id_user", id);
+                status.addProperty("novo_token", newToken);
+                return status;
+            }
         }
 
-        return false;
+        status.addProperty("status_token", DesafioRepositoryTokenStatus._ERROR);
+
+        return status;
     }
 
     public String generateToken(String email) {
