@@ -10,4 +10,7 @@ public class DesafioServiceDate {
     public static String getDate() {
         return new SimpleDateFormat("dd-MM-yyyy").format(new Date(System.currentTimeMillis()));
     }
+    public static String format(Date date) {
+        return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(date);
+    }
 }
