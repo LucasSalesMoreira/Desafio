@@ -21,7 +21,7 @@ public class DesafioRepositoryLogin {
         this.login = login;
     }
 
-    public JsonObject login() {
+    public String login() {
         try {
             String sql = "select * from user where email = ? and senha = ?";
             DesafioRepositoryConnection desafioConnection = new DesafioRepositoryConnection();
@@ -31,17 +31,13 @@ public class DesafioRepositoryLogin {
             stmt.setString(2, new DesafioServiceSecurity().encrypt(login.getSenha()));
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                JsonObject userData = new JsonObject();
-                userData.addProperty("id", rs.getString("id"));
-                //userData.addProperty("token", rs.getString("token"));
-                return userData;
-            }
+            if (rs.next())
+                return rs.getString("id");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return "ERROR";
     }
 }
