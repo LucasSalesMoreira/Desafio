@@ -1,6 +1,7 @@
 package com.example.GWSistemas.Desafio.controllers.services;
 
 import com.example.GWSistemas.Desafio.controllers.services.repositorys.DesafioRepositoryLogin;
+import com.example.GWSistemas.Desafio.controllers.services.repositorys.DesafioRepositoryTokenStatus;
 import com.example.GWSistemas.Desafio.models.DesafioModelLogin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,20 +26,37 @@ public class DesafioServiceLogin {
     }
 
     public String login() {
-        JsonObject userData = new DesafioRepositoryLogin(login).login();
 
-        if (userData != null && !token.isEmpty()) {
-            if (new DesafioServiceToken().verify(token)) {
-                //liberar o acesso ao sistema.
-                return "Logado!";
-            } else {
-                //gerar novo token de acesso (Email e senha estão corretos).
-                return "Seu token expirou ou não é válido!";
+        String id = new DesafioRepositoryLogin(login).login();
+
+        if (!id.equals("ERROR")) {
+            JsonObject tokenStatus = new DesafioServiceToken().verifyToken(token, id, login.getEmail());
+            String status = tokenStatus.get("status_token").getAsString();
+
+            if (status.equals(DesafioRepositoryTokenStatus._VALID_TOKEN)) {
+                //Liberar o acesso ao sistema (retornar objeto de usuário).
+                return tokenStatus.toString();
+
+            } else if (status.equals(DesafioRepositoryTokenStatus._UPDATED_BY_EXPIRATION)) {
+                //Novo token gerado e persistido (o anterior estava expirado).
+                return tokenStatus.toString();
+
+            } else if (status.equals(DesafioRepositoryTokenStatus._UPDATED_BY_INVALIDATION)) {
+                //Novo token gerado e persistido (O anterior não pode ser decodificado).
+                return tokenStatus.toString();
+
+            } else if (status.equals(DesafioRepositoryTokenStatus._INCORRECT_TOKEN)) {
+                //Esse token não pertence a este user.
+                return tokenStatus.toString();
+
+            } else if (status.equals(DesafioRepositoryTokenStatus._ERROR)) {
+                return "Falha!";
             }
         } else {
             //não liberar o acesso.
             return "Email e/ou senha incorretos!";
         }
 
+        return null;
     }
 }
